@@ -11,7 +11,7 @@ Let Anger reach 100%.
 Let your Sanity reach 0%.
 
 TO PLAY:
-Click on the large button to produce Code.
-Leaking information will decrease Anger but consume some of your already-produced Code.
-You can push back the deadline at the cost of increasing Anger.
-Pulling an all-nighter will give an instant boost to Code but consume much of your Sanity. Sanity replenishes slowly over time. 
+ - Click on the large button to produce Code.
+ - Leaking information will decrease Anger but consume some of your already-produced Code.
+ - You can push back the deadline at the cost of increasing Anger.
+ - Pulling an all-nighter will give an instant boost to Code but consume much of your Sanity. Sanity replenishes slowly over time. 
