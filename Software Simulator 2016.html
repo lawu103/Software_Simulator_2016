@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Software Simulator 2016</title>
+    <style>
+    </style>
+</head>
+
+<body onload="count()">
+    <div style = "text-align: center;">
+        <h2 id="timer">Days remaining: 90</h2>
+        
+        <div style="font-size: 20px">
+            <p id="angerLevel">Anger: 0%</p>
+            <p id="sanityLevel">Sanity: 100%</p>
+        </div>
+        
+        <h3 id="codeStorage">Code produced: 0</h3>
+        <br>
+        
+        <button type="button" style="width: 70px; height: 40px" onclick="codeProduce()">CODE!</button>
+        <br>
+        
+        <button type="button" onclick="releaseLeak()">Leak some info (-20 anger, requires 20 code)</button>
+        <button type="button" onclick="delayDate()">Delay release date (+7 days, +20 anger)</button>
+        <button type="button" onclick="allNighter()">Pull an all-nighter (+10 code, -50 sanity)</button>
+        <br>
+        
+        <div id="win">
+            <h1 id="winTitle"></h1>
+            <p id="winDescrip" style="font-size: 20px"></p>
+        </div>
+    </div>
+        
+        
+        <script>
+            var gameState = 0;  //indicates the current state of the game. 0 = still in play, 1 = won, -1 = lost
+            var days = 90;      //days remaining
+            var anger = 0;      //anger level
+            var sanity = 100;   //sanity level
+            var codeMade = 0;   //code available
+            var codeTarget = 150; //code requirement for victory
+            function count()
+            {
+                setInterval(changeDays, 400)    //will decrease amount of days by 1 every interval 
+                setInterval(changeAnger, 300)    //will increase anger by 1% every interval
+                setInterval(regenSanity, 600)    //will regenerate sanity by 1% every interval if below 100%
+            }
+            function changeDays()
+            {
+                if (gameState == 0) //while game is still active, decrease days
+                {
+                    document.getElementById("timer").innerHTML = "Days remaining: " + days;
+                    days -= 1;
+                }
+                if (days <= 14) //change the timer to red when time is almost out
+                {
+                    document.getElementById("timer").style.color = "red";
+                }
+                if (days < 0) //defeat once the timer runs out
+                {
+                    youLose();
+                    document.getElementById("winDescrip").innerHTML = "Blufriz PR is forced into overtime trying to explain the lack of the S8C.";
+                }
+            }
+            function changeAnger()
+            {
+                if (gameState == 0) //while game is still active, increase anger
+                {
+                    document.getElementById("angerLevel").innerHTML = "Anger: " + anger + "%";
+                    anger += 1;
+                }
+                if (anger >= 90) //change the anger level to red when it's almost at 100%
+                {
+                    document.getElementById("angerLevel").style.color = "red";
+                }
+                if (anger > 100) //defeat once anger boils over
+                {
+                    youLose();
+                    document.getElementById("winDescrip").innerHTML = "Internet forums overflow with posts demanding the boycott of Blufriz.";
+                }
+            }
+            function regenSanity()
+            {
+                if (gameState == 0 && sanity <= 100)
+                {
+                    document.getElementById("sanityLevel").innerHTML = "Sanity: " + sanity + "%";
+                    sanity += 1;
+                }
+            }
+            
+            function releaseLeak()
+            {
+                if(codeMade >= 20)
+                {
+                    if (anger < 20)
+                        anger = 0;
+                    else
+                        anger -= 20;
+                    document.getElementById("angerLevel").innerHTML = "Anger: " + anger + "%";
+                    codeMade -= 20;
+                    document.getElementById("codeStorage").innerHTML = "Code produced: " + codeMade;
+                }
+            }
+            function delayDate()
+            {
+                days += 7;
+                document.getElementById("timer").innerHTML = "Days remaining: " + days;
+                if (anger > 80)
+                {
+                    document.getElementById("angerLevel").innerHTML = "Anger: 100%";
+                    youLose();
+                    document.getElementById("winDescrip").innerHTML = "Internet forums overflow with posts demanding the boycott of Blufriz.";
+                }
+                else
+                {
+                    anger += 20;
+                    document.getElementById("angerLevel").innerHTML = "Anger: " + anger + "%";
+                }   
+            }
+            function codeProduce()
+            {
+                if (gameState == 0) //if game is still active, the button works
+                {
+                    codeMade += 1;
+                    document.getElementById("codeStorage").innerHTML = "Code produced: " + codeMade;
+                }
+                if (codeMade == codeTarget) //victory once the code target is reached
+                {
+                    gameState = 1;
+                    document.getElementById("codeStorage").style.color = "green";
+                    document.getElementById("win").style.color = "green";
+                    document.getElementById("winTitle").innerHTML = "VICTORY";
+                    document.getElementById("winDescrip").innerHTML = "The S8C finally rolls out to critical acclaim. You get a raise.";
+                }
+            }
+            function allNighter()
+            {
+                days -= 1;      //it's an all-nighter, you lose a day
+                if (sanity < 20)
+                {
+                    document.getElementById("sanityLevel").innerHTML = "Sanity: 0%";
+                    youLose();
+                    document.getElementById("winDescrip").innerHTML = "You dream of code. Your life is code. You are the code.";
+                }
+                else
+                {
+                    sanity -= 50;
+                    document.getElementById("sanityLevel").innerHTML = "Sanity: " + sanity + "%";
+                    codeMade += 10;
+                    document.getElementById("codeStorage").innerHTML = "Code produced: " + codeMade;
+                }
+            }
+            function youLose()
+            {
+                gameState = -1;
+                document.getElementById("win").style.color = "red";
+                document.getElementById("winTitle").innerHTML = "DEFEAT";
+            }
+            
+        </script>
+</body>
+</html>
